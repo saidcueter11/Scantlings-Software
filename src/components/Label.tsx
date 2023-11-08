@@ -1,6 +1,6 @@
-export const Label = ({ question }: { question: string }) => {
+export const Label = ({ question, htmlFor }: { question: string, htmlFor: string }) => {
   return (
-    <label className='col-span-3' htmlFor="">
+    <label className='' htmlFor={htmlFor}>
       {question}
     </label>
   )

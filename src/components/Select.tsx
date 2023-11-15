@@ -9,7 +9,7 @@ export const Select = ({ array, setter }: SelectProps) => {
   const { handleChangeSelect } = useScantlingsContext()
   return (
     <select className="border border-slate-400/80 rounded-lg px-3 py-0.5 bg-transparent" onChange={(e) => { handleChangeSelect(e, setter) }}>
-      {array.map((item, i) => <option value={item} key={i}>{item}</option>)}
+      {array.map((item, i) => <option value={item} key={i} selected={i === 0}>{item}</option>)}
     </select>
   )
 }

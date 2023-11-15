@@ -36,7 +36,6 @@ export const InitialValues = () => {
 
   return (
     <>
-      <h1 className='mb-8 text-3xl font-bold'>Scantlings Software</h1>
       <form onSubmit={handleSubmit} className='grid grid-cols-2 gap-4'>
         <Label question="Ingrese la eslora maxima 'LH' de su embarcación (metros):" htmlFor='LH'/>
         <Input min={2.5} max={24} value={LH} setter={setLH} name='LH'/>
@@ -68,7 +67,7 @@ export const InitialValues = () => {
         <Label question="Seleccione la zona donde desea realizar los calculos" htmlFor='zona'/>
         <Select array={ZONES} setter={setZone}/>
 
-        <button className={`bg-slate-400 rounded-lg p-3 text-slate-50 transition-opacity col-span-2 w-28 justify-self-center ${material.length === 0 ? 'opacity-40' : 'opacity-100'}`} disabled={material.length === 0}>Siguiente</button>
+        <button className={`bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-36 justify-self-center ${material.length === 0 ? 'opacity-40' : 'opacity-100'}`} disabled={material.length === 0}>Siguiente</button>
       </form>
     </>
   )

@@ -12,12 +12,17 @@ export const Zone = () => {
     lu,
     c,
     cu,
+    LWL,
+    xp,
+    xs,
     setB,
     setL,
     setS,
     setLu,
     setC,
-    setCu
+    setCu,
+    setXp,
+    setXs
   } = useScantlingsContext()
 
   const goBack = () => { history.back() }
@@ -49,6 +54,12 @@ export const Zone = () => {
 
         <Label question="Ingrese la corona del rigidizador curvo 'cu' (mm): " htmlFor={'cu'}/>
         <Input min={0} name='cu' value={cu} setter={setCu} max={330 * LH}/>
+
+        <Label question="Ingrese la distancia con respecto a popa del centro del panel analizado 'x_p' (metros): " htmlFor={'xp'}/>
+        <Input min={0} name='xp' value={xp} setter={setXp} max={LWL}/>
+
+        <Label question="Ingrese la distancia con respecto a popa del centro del refuerzo analizado 'x_s' (metros): " htmlFor={'xs'}/>
+        <Input min={0} name='xs' value={xs} setter={setXs} max={LWL}/>
         <button className={'bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-36 justify-self-center'}>Siguiente</button>
       </form>
     </section>

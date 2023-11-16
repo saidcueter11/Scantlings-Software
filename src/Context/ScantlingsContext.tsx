@@ -1,6 +1,7 @@
 import { createContext, useContext, type ReactNode, type SyntheticEvent, useState } from 'react'
 
 // Define the context interface
+
 export interface ScantlingsContextType {
   LH: number
   LWL: number
@@ -19,7 +20,7 @@ export interface ScantlingsContextType {
   eio: number
   ei: number
   eo: number
-  category: string
+  category: 'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas'
   material: string
   zone: string
   b: number
@@ -28,6 +29,12 @@ export interface ScantlingsContextType {
   s: number
   c: number
   cu: number
+  xp: number
+  xs: number
+  type: 'Displacement' | 'Planning'
+  setType: (value: 'Displacement' | 'Planning') => void
+  setXs: (value: number) => void
+  setXp: (value: number) => void
   setLH: (value: number) => void
   setLWL: (value: number) => void
   setBWL: (value: number) => void
@@ -45,7 +52,7 @@ export interface ScantlingsContextType {
   setEio: (value: number) => void
   setEi: (value: number) => void
   setEo: (value: number) => void
-  setCategory: (value: string) => void
+  setCategory: (value: 'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas') => void
   setMaterial: (value: string) => void
   setZone: (value: string) => void
   setB: (value: number) => void
@@ -99,10 +106,12 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [s, setS] = useState(0)
   const [c, setC] = useState(0)
   const [cu, setCu] = useState(0)
-
-  const [category, setCategory] = useState('Oceano')
+  const [xp, setXp] = useState(LWL)
+  const [xs, setXs] = useState(LWL)
+  const [category, setCategory] = useState<'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas'>('Oceano')
   const [material, setMaterial] = useState('Acero')
   const [zone, setZone] = useState('Fondo')
+  const [type, setType] = useState<'Displacement' | 'Planning'>('Planning')
 
   const handleChangeInput = (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => {
     const { value } = e.currentTarget
@@ -141,6 +150,12 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     s,
     c,
     cu,
+    xp,
+    xs,
+    type,
+    setType,
+    setXp,
+    setXs,
     setLH,
     setLWL,
     setBWL,

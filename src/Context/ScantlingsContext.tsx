@@ -1,7 +1,5 @@
 import { createContext, useContext, type ReactNode, type SyntheticEvent, useState } from 'react'
 
-// Define the context interface
-
 export interface ScantlingsContextType {
   LH: number
   LWL: number
@@ -63,21 +61,11 @@ export interface ScantlingsContextType {
   setCu: (value: number) => void
   handleChangeInput: (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => void
   handleChangeSelect: (e: SyntheticEvent<HTMLSelectElement>, setter: (value: string) => void) => void
+  handleChangeSelectCategory: (e: SyntheticEvent<HTMLSelectElement>, setterCategory: (value: 'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas') => void) => void
 }
 
-// Create the context
 export const ScantlingsContext = createContext<ScantlingsContextType | undefined>(undefined)
 
-// Create a custom hook to access the context
-export function useScantlingsContext () {
-  const context = useContext(ScantlingsContext)
-  if (context == null) {
-    throw new Error('useMyContext must be used within a MyContextProvider')
-  }
-  return context
-}
-
-// Create the context provider
 interface MyContextProviderProps {
   children: ReactNode
 }
@@ -121,6 +109,14 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const handleChangeSelect = (e: SyntheticEvent<HTMLSelectElement>, setter: (value: string) => void) => {
     const { value } = e.currentTarget
     setter(value)
+  }
+
+  const handleChangeSelectCategory = (
+    e: SyntheticEvent<HTMLSelectElement>,
+    setterCategory: (value: 'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas') => void
+  ) => {
+    const { value } = e.currentTarget
+    setterCategory(value as 'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas')
   }
 
   const contextValue: ScantlingsContextType = {
@@ -183,8 +179,16 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     setC,
     setCu,
     handleChangeInput,
-    handleChangeSelect
+    handleChangeSelect,
+    handleChangeSelectCategory
   }
 
   return <ScantlingsContext.Provider value={contextValue}>{children}</ScantlingsContext.Provider>
+}
+export function useScantlingsContext () {
+  const context = useContext(ScantlingsContext)
+  if (context === undefined) {
+    throw new Error('useMyContext must be used within a MyContextProvider')
+  }
+  return context
 }

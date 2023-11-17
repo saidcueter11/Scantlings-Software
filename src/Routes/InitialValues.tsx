@@ -59,7 +59,7 @@ export const InitialValues = () => {
         <Input min={0} value={B04} setter={setB04} name='B04'/>
 
         <Label question="Seleccione la categoria para el diseño de su embarcación:" htmlFor='categoria'/>
-        <Select array={CATEGORIA_EMBARCACION} setter={setCategory}/>
+        <Select array={CATEGORIA_EMBARCACION} setterCategory={setCategory}/>
 
         <Label question="Seleccione el material para el escantillonado de su embarcación" htmlFor='material'/>
         <Select array={PLATING_MATERIALS} setter={setMaterial}/>

@@ -1,8 +1,12 @@
+import { type SyntheticEvent } from 'react'
 import { useScantlingsContext } from '../Context/ScantlingsContext'
 import { Input } from '../components/Input'
 import { Label } from '../components/Label'
+import { useLocation } from 'wouter'
 
 export const Zone = () => {
+  const [,setLocation] = useLocation()
+
   const {
     zone,
     LH,
@@ -26,15 +30,17 @@ export const Zone = () => {
   } = useScantlingsContext()
 
   const goBack = () => { history.back() }
-  const handleSubmit = () => {
 
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLocation('/results')
   }
 
   return (
     <section className='flex flex-col items-center h-full w-full'>
       <div className=''>
         <button className='cursor-pointer w-20 justify-self-start absolute top-28 left-96 border border-transparent hover:border-slate-900 transition-colors rounded-lg px-3 py-0.5' onClick={goBack}>Ir atras</button>
-        <h2 className='mb-8 text-xl font-medium'>Material seleccionado: {zone}</h2>
+        <h2 className='mb-8 text-xl font-medium'>Zona seleccionada: {zone}</h2>
       </div>
       <form className='grid grid-cols-2 gap-4 max-w-7xl max-h-80' onSubmit={handleSubmit}>
         <Label question="Digite el lado más corto del panel 'b', entre los 2 rigidizadores más proximos (mm): " htmlFor={'b'}/>

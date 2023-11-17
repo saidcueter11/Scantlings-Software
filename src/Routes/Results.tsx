@@ -3,11 +3,16 @@ import { useCraftCalculator } from '../hooks/craftCalculator'
 
 export const Results = () => {
   const { mLDC, type, category, zone, material, xp, xs, LWL } = useScantlingsContext()
+  const context = useScantlingsContext()
   const { calculatePBMD, calculatePBMP, kDC, nCG, designStressesPlating, designStressesStiffeners, calculateKL, calculateKR, calculateKAR, calculateAD, calculatePlatingFactors, KC, KCS } = useCraftCalculator()
+  const craft = useCraftCalculator()
 
   const bottomPressureS = Math.max(calculatePBMD.PBMDs, calculatePBMP.PBMPs)
 
   const PBM_MIN = 0.45 * Math.pow(mLDC, 0.33) + (0.9 * LWL * kDC)
+
+  console.log({ context })
+  console.log({ craft })
 
   return (
     <>
@@ -35,7 +40,7 @@ export const Results = () => {
       <p>k3: {calculatePlatingFactors.k3}</p>
       <p>kC: {KC}</p>
 
-      <p>Distancia de popa al pane (xs): {xs}</p>
+      <p>Distancia de popa al panel (xs): {xs}</p>
       <p>kLs: {calculateKL.kLs}</p>
       <p>kRs: {calculateKR.kRs}</p>
       <p>ADs: {calculateAD.ADs}</p>

@@ -31,6 +31,7 @@ export const InitialValues = () => {
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setmLDC(mLDC * 1000)
     setLocation(material)
   }
 

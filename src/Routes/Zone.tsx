@@ -19,6 +19,7 @@ export const Zone = () => {
     LWL,
     xp,
     xs,
+    material,
     setB,
     setL,
     setS,
@@ -33,7 +34,7 @@ export const Zone = () => {
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLocation('/results')
+    setLocation(`/${material}/${zone}/results`)
   }
 
   return (

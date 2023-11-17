@@ -10,7 +10,7 @@ function App () {
   return (
     <ScantlingsContextProvider>
       <AppWrapper>
-        <Route component={Results} path='/results' />
+        <Route component={Results} path='/:material/:zone/results' />
         <Route component={Zone} path='/:material/:zone' />
         <Route component={Material} path='/:material' />
         <Route component={InitialValues} path='/' />

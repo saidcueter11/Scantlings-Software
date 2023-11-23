@@ -1,18 +1,17 @@
 import { useScantlingsContext } from '../Context/ScantlingsContext'
-import { ResultsItem } from '../components/ResultsItem'
 import { useBottomCalculator } from '../hooks/bottomCalculator'
 import { useCraftCalculator } from '../hooks/craftCalculator'
 import { useLocation } from 'wouter'
-import { useSideCalculator } from '../hooks/sideCalculator'
-import { useDeckCalculator } from '../hooks/deckCalculator'
+// import { useSideCalculator } from '../hooks/sideCalculator'
+// import { useDeckCalculator } from '../hooks/deckCalculator'
 import { BottomResultsTable } from '../components/BottomResultsTable'
 
 export const Results = () => {
   const context = useScantlingsContext()
   const craft = useCraftCalculator()
   const bottom = useBottomCalculator()
-  const side = useSideCalculator()
-  const deck = useDeckCalculator()
+  // const side = useSideCalculator()
+  // const deck = useDeckCalculator()
 
   const [,setLocation] = useLocation()
   const goBack = () => { history.back() }

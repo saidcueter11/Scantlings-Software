@@ -2,15 +2,15 @@ export type MaterialType = 'Acero' | 'Aluminio' | 'FRP-Single Skin' | 'FRP-Sandw
 export type CategoryType = 'Oceano' | 'Offshore' | 'Inshore'
 
 export interface DesignStressesPlating {
-  sigmaDp?: number
-  sigmaDtp?: number
-  sigmaDcp?: number
-  tauDp?: number
+  sigmaDp: number
+  sigmaDtp: number
+  sigmaDcp: number
+  tauDp: number
 }
 
 export interface DesignStressesStiffeners {
-  sigmaD?: number
-  tauDs?: number
+  sigmaD: number
+  tauDs: number
 }
 
 export interface CalculateKLResult {
@@ -44,15 +44,15 @@ export interface CalculatePBMPResult {
 }
 
 export interface PlatingFactors {
-  A?: number
-  k1?: number
-  k2?: number
-  k3?: number
-  k4?: number
-  k5?: number
-  k6?: number
-  k7?: number
-  k8?: number
+  A: number
+  k1: number
+  k2: number
+  k3: number
+  k4: number
+  k5: number
+  k6: number
+  k7: number
+  k8: number
 }
 
 export interface ScantlingsCalculations {
@@ -73,4 +73,64 @@ export interface ScantlingsCalculations {
   calculateAW: number
   calculateSM: number
   calculateSecondI: number | null
+}
+
+export interface PDMType {
+  PDM_MIN: number
+  PDM_BASE: number
+  PDMp: number
+  PDMs: number
+}
+
+export interface AWType {
+  AW: number
+}
+
+export interface SMType {
+  SM: number
+}
+
+export interface SecondIType {
+  I: number | null
+}
+
+export interface ReturnPlatingType {
+  t: number | undefined
+  SM0: number | undefined
+  SM1: number | undefined
+  I: number | undefined
+  EI: number | undefined
+}
+
+export interface MinHullThicknessType {
+  tMin: number
+  wMin: number
+  wos: number
+  wis: number
+}
+
+interface UseBottomCalculatorReturnType {
+  pbmdValues: CalculatePBMDResult
+  pbmpValues: CalculatePBMPResult
+  AW: number
+  SM: number
+  SecondI: number | null
+  bottomPressureS: number
+  bottomPlating: ReturnPlatingType
+  minHullThickness: MinHullThicknessType
+}
+
+interface UseCraftCalculatorReturnType {
+  nCG: number
+  kDC: number
+  designStressesPlating: DesignStressesPlating
+  designStressesStiffeners: DesignStressesStiffeners
+  calculateKL: CalculateKLResult
+  calculateKR: CalculateKRResult
+  calculateAD: CalculateADResult
+  calculateKAR: CalculateKARResult
+  calculatePlatingFactors: PlatingFactors
+  KC: number
+  KSHC: number
+  KCS: number
 }

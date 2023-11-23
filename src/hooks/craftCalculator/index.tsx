@@ -1,27 +1,46 @@
 import { useEffect, useState } from 'react'
 import { useScantlingsContext } from '../../Context/ScantlingsContext'
-import { type CalculateADResult, type CalculateKARResult, type CalculateKLResult, type CalculateKRResult, type CalculatePBMDResult, type CalculatePBMPResult, type DesignStressesPlating, type DesignStressesStiffeners, type PlatingFactors } from '../../types'
+import { type CalculateADResult, type CalculateKARResult, type CalculateKLResult, type CalculateKRResult, type DesignStressesPlating, type DesignStressesStiffeners, type PlatingFactors } from '../../types'
+
+const initialPlatingFactors: PlatingFactors = {
+  A: 0,
+  k1: 0,
+  k2: 0,
+  k3: 0,
+  k4: 0,
+  k5: 0,
+  k6: 0,
+  k7: 0,
+  k8: 0
+}
+
+const initialDesignStressesPlating: DesignStressesPlating = {
+  sigmaDp: 0,
+  sigmaDtp: 0,
+  sigmaDcp: 0,
+  tauDp: 0
+}
+
+const initialDesignStressesStiffeners: DesignStressesStiffeners = {
+  sigmaD: 0,
+  tauDs: 0
+}
 
 export const useCraftCalculator = () => {
   const context = useScantlingsContext()
 
   const [nCG, setNCG] = useState<number>(0)
   const [kDC, setKDC] = useState<number>(0)
-  const [designStressesPlating, setDesignStressesPlating] = useState<DesignStressesPlating>({})
-  const [designStressesStiffeners, setDesignStressesStiffeners] = useState<DesignStressesStiffeners>({})
+  const [designStressesPlating, setDesignStressesPlating] = useState<DesignStressesPlating>(initialDesignStressesPlating)
+  const [designStressesStiffeners, setDesignStressesStiffeners] = useState<DesignStressesStiffeners>(initialDesignStressesStiffeners)
   const [klValues, setKLValues] = useState<CalculateKLResult>({ kLp: 0, kLs: 0 })
   const [krValues, setKRValues] = useState<CalculateKRResult>({ kRp: 0, kRs: 0 })
   const [adValues, setADValues] = useState<CalculateADResult>({ ADp: 0, ADs: 0 })
   const [karValues, setKARValues] = useState<CalculateKARResult>({ kARp: 0, kARs: 0 })
-  const [pbmdValues, setPBMDValues] = useState<CalculatePBMDResult>({ PBMDp: 0, PBMDs: 0 })
-  const [pbmpValues, setPBMPValues] = useState<CalculatePBMPResult>({ PBMPp: 0, PBMPs: 0 })
-  const [platingFactors, setPlatingFactors] = useState<PlatingFactors>({})
+  const [platingFactors, setPlatingFactors] = useState<PlatingFactors>(initialPlatingFactors)
   const [KC, setCalculateKC] = useState<number>(0)
   const [KSHC, setCalculateKSHC] = useState<number>(0)
   const [KCS, setCalculateKCS] = useState<number>(0)
-  const [AW, setCalculateAW] = useState<number>(0)
-  const [SM, setCalculateSM] = useState<number>(0)
-  const [SecondI, setCalculateSecondI] = useState<number | null>(null)
 
   useEffect(() => {
     setNCG(calculateNcg())
@@ -32,15 +51,10 @@ export const useCraftCalculator = () => {
     setKRValues(calculateKR())
     setADValues(calculateAD())
     setKARValues(calculateKAR())
-    setPBMDValues(calculatePBMD())
-    setPBMPValues(calculatePBMP())
     setPlatingFactors(calculatePlatingFactors())
     setCalculateKC(calculateKC())
     setCalculateKSHC(calculateKSHC())
     setCalculateKCS(calculateKCS())
-    setCalculateAW(calculateAW())
-    setCalculateSM(calculateSM())
-    setCalculateSecondI(calculateSecondI())
   }, [context])
 
   const calculateNcg = (): number => {
@@ -70,10 +84,10 @@ export const useCraftCalculator = () => {
   }
 
   const calculateDesignStressesPlating = (): DesignStressesPlating => {
-    let sigmaDp: number | undefined
-    let sigmaDtp: number | undefined
-    let sigmaDcp: number | undefined
-    let tauDp: number | undefined
+    let sigmaDp: number = 0
+    let sigmaDtp: number = 0
+    let sigmaDcp: number = 0
+    let tauDp: number = 0
 
     if (context.material === 'Acero' || context.material === 'Aluminio') {
       sigmaDp = Math.min(0.6 * context.sigmaU, 0.9 * context.sigmaY)
@@ -103,8 +117,8 @@ export const useCraftCalculator = () => {
   }
 
   const calculateDesignStressesStiffeners = (): DesignStressesStiffeners => {
-    let sigmaD: number | null = null
-    let tauDs: number | null = null
+    let sigmaD: number = 0
+    let tauDs: number = 0
 
     if (context.material === 'Aluminio') {
       sigmaD = 0.7 * context.sigmaY
@@ -173,33 +187,6 @@ export const useCraftCalculator = () => {
     return { kARp, kARs }
   }
 
-  const calculatePBMD = (): CalculatePBMDResult => {
-    const kDCVal = calculateKDC()
-    const KARValues = calculateKAR()
-    const KLValues = calculateKL()
-
-    const PBM_MIN = 0.45 * Math.pow(context.mLDC, 0.33) + (0.9 * context.LWL * kDCVal)
-    const PBMD_BASE = 2.4 * Math.pow(context.mLDC, 0.33) + 20
-    const PBMDp = Math.max(PBMD_BASE * KARValues.kARp * kDCVal * KLValues.kLp, PBM_MIN)
-    const PBMDs = Math.max(PBMD_BASE * KARValues.kARs * kDCVal * KLValues.kLs, PBM_MIN)
-
-    return { PBMDp, PBMDs }
-  }
-
-  const calculatePBMP = (): CalculatePBMPResult => {
-    const nCGVal = calculateNcg()
-    const kDCVal = calculateKDC()
-    const KARValues = calculateKAR()
-    const KLValues = calculateKL()
-
-    const PBM_MIN = 0.45 * Math.pow(context.mLDC, 0.33) + (0.9 * context.LWL * kDCVal)
-    const PBMP_BASE = ((0.1 * context.mLDC) / (context.LWL * context.BC)) * (1 + Math.pow(kDCVal, 0.5) * nCGVal)
-    const PBMPp = Math.max(PBMP_BASE * KARValues.kARp * KLValues.kLp, PBM_MIN)
-    const PBMPs = Math.max(PBMP_BASE * KARValues.kARs * KLValues.kLs, PBM_MIN)
-
-    return { PBMPp, PBMPs }
-  }
-
   const calculateKC = (): number => {
     const cb = context.c / context.b
     if (cb < 0.03) {
@@ -212,14 +199,12 @@ export const useCraftCalculator = () => {
   }
 
   const calculatePlatingFactors = (): PlatingFactors => {
-    let k2: number | undefined
-    let k3: number | undefined
-    let k5: number | undefined
-    let k6: number | undefined
-    let k7: number | undefined
-    let k8: number | undefined
-
-    const skin: string = ''
+    let k2: number = 0
+    let k3: number = 0
+    let k5: number = 0
+    let k6: number = 0
+    let k7: number = 0
+    let k8: number = 0
 
     const A = (['Acero', 'Aluminio'].includes(context.material)) ? 1 : 1.5
     const k1 = 0.017
@@ -256,11 +241,11 @@ export const useCraftCalculator = () => {
     // esto no esta terminado
 
     if (['FRP-Single Skin', 'FRP-Sandwich'].includes(context.material)) {
-      if (skin === 'Fibra de vidrio E con filamentos cortados') {
+      if (context.skin === 'Fibra de vidrio E con filamentos cortados') {
         k5 = 1.0
-      } else if (skin === 'Fibra de vidrio tejida') {
+      } else if (context.skin === 'Fibra de vidrio tejida') {
         k5 = 0.9
-      } else if (skin === 'Fibra tejida de carbono, aramida(kevlar) o híbrida') {
+      } else if (context.skin === 'Fibra tejida de carbono, aramida(kevlar) o híbrida') {
         k5 = 0.7
       }
 
@@ -310,33 +295,6 @@ export const useCraftCalculator = () => {
     }
   }
 
-  const calculateAW = (): number => {
-    const kSA = 5
-    const bottomPressureS = Math.max(calculatePBMD().PBMDs, calculatePBMP().PBMPs)
-    const { tauDs } = calculateDesignStressesStiffeners()
-
-    const AW: number = ((kSA * bottomPressureS * context.s * context.lu) / (tauDs)) * 1e-6
-    return AW
-  }
-
-  const calculateSM = (): number => {
-    const bottomPressureS = Math.max(calculatePBMD().PBMDs, calculatePBMP().PBMPs)
-    const { sigmaD } = calculateDesignStressesStiffeners()
-
-    const SM: number = ((83.33 * calculateKCS() * bottomPressureS * context.s * Math.pow(context.lu, 2)) / (sigmaD)) * 1e-9
-    return SM
-  }
-
-  const calculateSecondI = (): number | null => {
-    const bottomPressureS = Math.max(calculatePBMD().PBMDs, calculatePBMP().PBMPs)
-
-    if (['FRP-Single Skin', 'FRP-Sandwich'].includes(context.material)) {
-      const I: number = ((26 * Math.pow(calculateKCS(), 1.5) * bottomPressureS * context.s * Math.pow(context.lu, 3)) / (0.05 * context.eio)) * 1e-11
-      return I
-    }
-    return null
-  }
-
   return {
     nCG,
     kDC,
@@ -346,14 +304,9 @@ export const useCraftCalculator = () => {
     calculateKR: krValues,
     calculateAD: adValues,
     calculateKAR: karValues,
-    calculatePBMD: pbmdValues,
-    calculatePBMP: pbmpValues,
     calculatePlatingFactors: platingFactors,
     KC,
     KSHC,
-    KCS,
-    AW,
-    SM,
-    SecondI
+    KCS
   }
 }

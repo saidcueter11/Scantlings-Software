@@ -5,6 +5,7 @@ import { type SyntheticEvent } from 'react'
 import { CATEGORIA_EMBARCACION, PLATING_MATERIALS, ZONES } from '../constants'
 import { useLocation } from 'wouter'
 import { useScantlingsContext } from '../Context/ScantlingsContext'
+import { NextButton } from '../components/NextButton'
 
 export const InitialValues = () => {
   const [, setLocation] = useLocation()
@@ -68,7 +69,7 @@ export const InitialValues = () => {
         <Label question="Seleccione la zona donde desea realizar los calculos" htmlFor='zona'/>
         <Select array={ZONES} setter={setZone}/>
 
-        <button className={`bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-36 justify-self-center ${material.length === 0 ? 'opacity-40' : 'opacity-100'}`} disabled={material.length === 0}>Siguiente</button>
+        <NextButton/>
       </form>
     </>
   )

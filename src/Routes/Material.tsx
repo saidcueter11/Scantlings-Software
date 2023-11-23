@@ -3,6 +3,9 @@ import { Label } from '../components/Label'
 import { Input } from '../components/Input'
 import { useScantlingsContext } from '../Context/ScantlingsContext'
 import { type SyntheticEvent } from 'react'
+import { Select } from '../components/Select'
+import { SKIN_TYPE } from '../constants'
+import { NextButton } from '../components/NextButton'
 
 export const Material = () => {
   const params = useParams()
@@ -30,7 +33,8 @@ export const Material = () => {
     setSigmaY,
     setTauU,
     setEo,
-    setTauNu
+    setTauNu,
+    setSkin
   } = useScantlingsContext()
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
@@ -74,6 +78,9 @@ export const Material = () => {
 
               <Label question={'Ingrese el Módulo de Elasticidad de la fibra (MPa): '} htmlFor='eio'/>
               <Input min={0} name='eio' value={eio} setter={setEio}/>
+
+              <Label question='Seleccione el tipo de fibra de diseño' htmlFor='skin'/>
+              <Select array={SKIN_TYPE} setter={setSkin}/>
             </>
           )
         }
@@ -98,10 +105,13 @@ export const Material = () => {
 
               <Label question={'Ingrese el Módulo de elasticidad de la fibra externa (MPa): '} htmlFor='eo`'/>
               <Input min={0} name='eo' value={eo} setter={setEo}/>
+
+              <Label question='Seleccione el tipo de fibra de diseño' htmlFor='skin'/>
+              <Select array={SKIN_TYPE} setter={setSkin}/>
             </>
           )
         }
-        <button className={'bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-36 justify-self-center'}>Siguiente</button>
+        <NextButton/>
       </form>
     </section>
   )

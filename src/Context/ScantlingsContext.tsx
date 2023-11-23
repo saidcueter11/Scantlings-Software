@@ -30,6 +30,14 @@ export interface ScantlingsContextType {
   xp: number
   xs: number
   type: 'Displacement' | 'Planning'
+  skin: string
+  z: number
+  hp: number
+  hs: number
+  setZ: (value: number) => void
+  setHp: (value: number) => void
+  setHs: (value: number) => void
+  setSkin: (value: string) => void
   setType: (value: 'Displacement' | 'Planning') => void
   setXs: (value: number) => void
   setXp: (value: number) => void
@@ -96,6 +104,10 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [cu, setCu] = useState(0)
   const [xp, setXp] = useState(LWL)
   const [xs, setXs] = useState(LWL)
+  const [z, setZ] = useState(0)
+  const [hp, setHp] = useState(0)
+  const [hs, setHs] = useState(0)
+  const [skin, setSkin] = useState('Fibra de vidrio E con filamentos cortados')
   const [category, setCategory] = useState<'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas'>('Oceano')
   const [material, setMaterial] = useState('Acero')
   const [zone, setZone] = useState('Fondo')
@@ -120,6 +132,7 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   }
 
   const contextValue: ScantlingsContextType = {
+    skin,
     LH,
     LWL,
     BWL,
@@ -149,6 +162,13 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     xp,
     xs,
     type,
+    z,
+    hp,
+    hs,
+    setHp,
+    setHs,
+    setZ,
+    setSkin,
     setType,
     setXp,
     setXs,

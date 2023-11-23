@@ -3,6 +3,7 @@ import { useScantlingsContext } from '../Context/ScantlingsContext'
 import { Input } from '../components/Input'
 import { Label } from '../components/Label'
 import { useLocation } from 'wouter'
+import { NextButton } from '../components/NextButton'
 
 export const Zone = () => {
   const [,setLocation] = useLocation()
@@ -20,6 +21,12 @@ export const Zone = () => {
     xp,
     xs,
     material,
+    z,
+    hp,
+    hs,
+    setHp,
+    setHs,
+    setZ,
     setB,
     setL,
     setS,
@@ -67,7 +74,22 @@ export const Zone = () => {
 
         <Label question="Ingrese la distancia con respecto a popa del centro del refuerzo analizado 'x_s' (metros): " htmlFor={'xs'}/>
         <Input min={0} name='xs' value={xs} setter={setXs} max={LWL}/>
-        <button className={'bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-36 justify-self-center'}>Siguiente</button>
+
+        {
+          zone === 'Cubierta' &&
+          <>
+            <Label question="Ingrese el francobordo de su embarcación (metros): " htmlFor={'z'}/>
+            <Input min={0} name='z' value={z} setter={setZ} />
+
+            <Label question="Ingrese la altura del centro del panel por encima de la linea de flotación (metros): " htmlFor={'hp'}/>
+            <Input min={0} name='hp' value={hp} setter={setHp} max={z}/>
+
+            <Label question="Ingrese la altura del centro del refuerzo por encima de la linea de flotación (metros): " htmlFor={'hs'}/>
+            <Input min={0} name='hs' value={hs} setter={setHs} max={z}/>
+          </>
+        }
+
+        <NextButton/>
       </form>
     </section>
   )

@@ -38,7 +38,7 @@ export const InitialValues = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className='grid grid-cols-2 gap-4'>
+      <form onSubmit={handleSubmit} className='lg:grid lg:grid-cols-2 gap-4 flex flex-col min-h-full max-w-xs sm:max-w-xl lg:max-w-4xl xl:max-w-none'>
         <Label question="Ingrese la eslora maxima 'LH' de su embarcación (metros):" htmlFor='LH'/>
         <Input min={2.5} max={24} value={LH} setter={setLH} name='LH'/>
 

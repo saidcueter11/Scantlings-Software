@@ -46,11 +46,11 @@ export const Zone = () => {
 
   return (
     <section className='flex flex-col items-center h-full w-full'>
-      <div className=''>
-        <button className='cursor-pointer w-20 justify-self-start absolute top-28 left-96 border border-transparent hover:border-slate-900 transition-colors rounded-lg px-3 py-0.5' onClick={goBack}>Ir atras</button>
-        <h2 className='mb-8 text-xl font-medium'>Zona seleccionada: {zone}</h2>
+      <div className='w-full'>
+      <button className='cursor-pointer w-20 justify-self-start relative border border-transparent hover:border-slate-900 transition-colors rounded-lg px-3 py-0.5' onClick={goBack}>Ir atras</button>
+        <h2 className='mb-8 text-xl font-medium text-center'>Zona seleccionada: {zone}</h2>
       </div>
-      <form className='grid grid-cols-2 gap-4 max-w-7xl max-h-80' onSubmit={handleSubmit}>
+      <form className='lg:grid grid-cols-2 gap-4 xl:max-w-7xl lg:max-h-80 flex flex-col max-w-xs h-full sm:max-w-lg lg:max-w-4xl' onSubmit={handleSubmit}>
         <Label question="Digite el lado más corto del panel 'b', entre los 2 rigidizadores más proximos (mm): " htmlFor={'b'}/>
         <Input min={0} name='b' value={b} setter={setB}/>
 

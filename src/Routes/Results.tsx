@@ -17,7 +17,7 @@ export const Results = () => {
   const goBack = () => { history.back() }
 
   return (
-    <main>
+    <main className='max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-none'>
 
       {
         context.zone === 'Fondo' && <BottomResultsTable context={context} craft={craft} bottom={bottom}/>

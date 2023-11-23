@@ -29,20 +29,19 @@ export const useBottomCalculator = () => {
   const [minHullThickness, setMinHullThickness] = useState<MinHullThicknessType>(initialMinHullThickness)
 
   const context = useScantlingsContext()
-  const craft = useCraftCalculator()
   const { material, mLDC, V, LWL, b, eio } = useScantlingsContext()
   const { calculatePlatingFactors, kDC, designStressesPlating, KSHC, KC, calculateKAR, calculateKL, nCG, designStressesStiffeners, KCS } = useCraftCalculator()
 
   useEffect(() => {
-    setPBMDValues(calculatePBMD())
-    setPBMPValues(calculatePBMP())
-    setCalculateAW(calculateAW())
-    setCalculateSM(calculateSM())
-    setCalculateSecondI(calculateSecondI())
-    setBottomPressureS(calculateBottomPressureS())
-    setBottomPlating(calculateBottomPlating())
-    setMinHullThickness(calculateMinHullThickness())
-  }, [context, craft])
+    pbmdValues !== calculatePBMD() && setPBMDValues(calculatePBMD())
+    pbmpValues !== calculatePBMP() && setPBMPValues(calculatePBMP())
+    AW !== calculateAW() && setCalculateAW(calculateAW())
+    SM !== calculateSM() && setCalculateSM(calculateSM())
+    SecondI !== calculateSecondI() && setCalculateSecondI(calculateSecondI())
+    bottomPressureS !== calculateBottomPressureS() && setBottomPressureS(calculateBottomPressureS())
+    bottomPlating !== calculateBottomPlating() && setBottomPlating(calculateBottomPlating())
+    minHullThickness !== calculateMinHullThickness() && setMinHullThickness(calculateMinHullThickness())
+  }, [context, calculatePlatingFactors, kDC, designStressesPlating, KSHC, KC, calculateKAR, calculateKL, nCG, designStressesStiffeners, KCS])
 
   const calculatePBMD = (): CalculatePBMDResult => {
     const KARValues = calculateKAR
@@ -104,9 +103,6 @@ export const useBottomCalculator = () => {
     const { sigmaDp, sigmaDtp, tauDp } = designStressesPlating
 
     const { tMin } = calculateMinHullThickness()
-    console.log({
-      bottomPressureP, k2, k3, k1, sigmaDp, sigmaDtp, tauDp, tMin
-    })
 
     if (['Acero', 'Aluminio'].includes(material)) {
       const ra = b * KC * Math.sqrt((bottomPressureP * k2) / (1000 * sigmaDp))

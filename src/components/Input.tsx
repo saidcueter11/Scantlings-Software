@@ -10,5 +10,16 @@ interface InputProps {
 
 export const Input = ({ min, max, value, setter, name }: InputProps) => {
   const { handleChangeInput } = useScantlingsContext()
-  return <input className='border border-slate-400/80 rounded-lg px-3 py-0.5' step='any' id={name} type='number' min={min} max={max} value={value} onChange={(e) => { handleChangeInput(e, setter) }} required/>
+  return <input
+    className='border border-slate-400/80 rounded-lg px-3 py-0.5'
+    step='any'
+    id={name}
+    type='number'
+    inputMode="decimal" // Brings up the decimal keyboard on mobile
+    min={min}
+    max={max}
+    value={value}
+    onChange={(e) => { handleChangeInput(e, setter) }}
+    required
+  />
 }

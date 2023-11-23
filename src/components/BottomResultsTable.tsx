@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { type ScantlingsContextType } from '../Context/ScantlingsContext'
 import { type UseCraftCalculatorReturnType, type UseBottomCalculatorReturnType } from '../types'
 import { exportToExcel } from '../utils/exportToExcel'
 import { exportTableToPdf } from '../utils/exportToPdf'
 import { ResultsItem } from './ResultsItem'
 
-const CollapsibleRow = ({ title, children }) => {
+const CollapsibleRow = ({ title, children }: { title: string, children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [maxHeight, setMaxHeight] = useState('0px')
-  const contentRef = useRef(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setMaxHeight(isOpen ? `${contentRef.current.scrollHeight}px` : '0px')
+    contentRef.current !== null && setMaxHeight(isOpen ? `${contentRef.current.scrollHeight}px` : '0px')
   }, [isOpen, contentRef])
   const toggleCollapse = () => {
     setIsOpen(!isOpen)

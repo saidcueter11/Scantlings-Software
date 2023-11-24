@@ -134,7 +134,7 @@ export const BottomResultsTable = ({ context, bottom, craft }: { context: Scantl
   )
 
   const handleExportToExcel = () => { exportToExcel(compileDataForExport(), 'Test') }
-  const handleExportToPdf = () => { exportTableToPdf('bottomTable', 'Test') }
+  const handleExportToPdf = () => { void exportTableToPdf('bottomTable', 'Test') }
 
   return (
     <>

@@ -14,12 +14,13 @@ export const Input = ({ min, max, value, setter, name }: InputProps) => {
     className='border border-slate-400/80 rounded-lg px-3 py-0.5'
     step='any'
     id={name}
-    type='number'
+    type='text' // Change to 'text'
+    pattern="[0-9][.]*" // Allows only numbers
     inputMode="decimal" // Brings up the decimal keyboard on mobile
     min={min}
     max={max}
     value={value}
     onChange={(e) => { handleChangeInput(e, setter) }}
     required
-  />
+/>
 }

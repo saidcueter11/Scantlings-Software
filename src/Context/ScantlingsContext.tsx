@@ -114,11 +114,9 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [type, setType] = useState<'Displacement' | 'Planning'>('Planning')
 
   const handleChangeInput = (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => {
-    const value = e.currentTarget.value
-    if (value === '') {
-      setter(0) // Set to default value when input is empty
-    } else if (/^\d*\.?\d*$/.test(value)) {
-      setter(value === '.' ? 0 : Number.parseFloat(value))
+    const value = e.currentTarget.value as unknown
+    if (/^\d*\.?\d*$/.test(value as string)) {
+      setter(value as number)
     }
   }
 

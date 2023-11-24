@@ -115,8 +115,10 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
 
   const handleChangeInput = (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => {
     const value = e.currentTarget.value
-    if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
-      setter(Number.parseFloat(value))
+    if (value === '') {
+      setter(0) // Set to default value when input is empty
+    } else if (/^\d*\.?\d*$/.test(value)) {
+      setter(value === '.' ? 0 : Number.parseFloat(value))
     }
   }
 

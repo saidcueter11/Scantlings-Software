@@ -15,7 +15,6 @@ export const Input = ({ min, max, value, setter, name }: InputProps) => {
     step='any'
     id={name}
     type='text' // Change to 'text'
-    pattern="[0-9][.]*" // Allows only numbers
     inputMode="decimal" // Brings up the decimal keyboard on mobile
     min={min}
     max={max}

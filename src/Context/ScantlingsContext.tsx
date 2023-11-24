@@ -114,8 +114,10 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [type, setType] = useState<'Displacement' | 'Planning'>('Planning')
 
   const handleChangeInput = (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => {
-    const { value } = e.currentTarget
-    setter(Number.parseFloat(value))
+    const value = e.currentTarget.value
+    if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
+      setter(Number.parseFloat(value))
+    }
   }
 
   const handleChangeSelect = (e: SyntheticEvent<HTMLSelectElement>, setter: (value: string) => void) => {

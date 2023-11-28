@@ -70,6 +70,7 @@ export interface ScantlingsContextType {
   handleChangeInput: (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => void
   handleChangeSelect: (e: SyntheticEvent<HTMLSelectElement>, setter: (value: string) => void) => void
   handleChangeSelectCategory: (e: SyntheticEvent<HTMLSelectElement>, setterCategory: (value: 'Oceano' | 'Offshore' | 'Inshore' | 'Aguas protegidas') => void) => void
+  resetStates: () => void
 }
 
 export const ScantlingsContext = createContext<ScantlingsContextType | undefined>(undefined)
@@ -112,6 +113,42 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [material, setMaterial] = useState('Acero')
   const [zone, setZone] = useState('Fondo')
   const [type, setType] = useState<'Displacement' | 'Planning'>('Planning')
+
+  const resetStates = () => {
+    setLH(0)
+    setLWL(0)
+    setBWL(0)
+    setBC(0)
+    setV(0)
+    setmLDC(0)
+    setB04(0)
+    setSigmaU(0)
+    setSigmaY(sigmaU)
+    setSigmaUf(0)
+    setSigmaUt(0)
+    setSigmaUc(0)
+    setTauU(0)
+    setTauNu(0)
+    setEio(0)
+    setEi(0)
+    setEo(0)
+    setB(0)
+    setL(0)
+    setLu(0)
+    setS(0)
+    setC(0)
+    setCu(0)
+    setXp(LWL)
+    setXs(LWL)
+    setZ(0)
+    setHp(0)
+    setHs(0)
+    setSkin('Fibra de vidrio E con filamentos cortados')
+    setCategory('Oceano')
+    setMaterial('Acero')
+    setZone('Fondo')
+    setType('Planning')
+  }
 
   const handleChangeInput = (e: SyntheticEvent<HTMLInputElement>, setter: (value: number) => void) => {
     const value = e.currentTarget.value as unknown
@@ -202,7 +239,8 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     setCu,
     handleChangeInput,
     handleChangeSelect,
-    handleChangeSelectCategory
+    handleChangeSelectCategory,
+    resetStates
   }
 
   return <ScantlingsContext.Provider value={contextValue}>{children}</ScantlingsContext.Provider>

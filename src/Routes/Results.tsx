@@ -15,6 +15,10 @@ export const Results = () => {
 
   const [,setLocation] = useLocation()
   const goBack = () => { history.back() }
+  const handleReset = () => {
+    setLocation('/')
+    context.resetStates()
+  }
 
   return (
     <main className='max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-none'>
@@ -24,8 +28,8 @@ export const Results = () => {
       }
 
       <div className='flex w-full justify-center mb-4 gap-5 '>
-        <button className='py-0.5 px-10 border min-w-[200px] rounded-lg border-black hover:bg-black/90 hover:text-slate-50 transition-colors' onClick={goBack}>Ir atras</button>
-        <button className='py-0.5 px-10 border min-w-[200px] rounded-lg border-black hover:bg-black/90 hover:text-slate-50 transition-colors' onClick={() => { setLocation('/') }}>Nuevo calculo</button>
+        <button className='py-0.5 px-3 w-full md:px-10 md:w-fit border md:min-w-[200px] rounded-lg bg-slate-600 p-3 text-slate-50 transition-opacity' onClick={goBack}>Ir atras</button>
+        <button className='py-0.5 px-3 w-full md:w-fit md:px-10 border md:min-w-[200px] rounded-lg bg-slate-600 p-3 text-slate-50 transition-opacity' onClick={handleReset}>Nuevo calculo</button>
       </div>
     </main>
 

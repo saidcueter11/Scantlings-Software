@@ -139,7 +139,7 @@ export const BottomResultsTable = ({ context, bottom, craft }: { context: Scantl
   return (
     <>
       <section className='px-6 rounded-lg min-w-full border-collapse border border-black'>
-        <table className='hidden lg:block' id='bottomTable'>
+        <table className='hidden lg:block lg:max-w-4xl xl:max-w-none' id='bottomTable'>
           <thead>
             <tr>
               <th className='p-2 text-center text-lg font-bold border-b border-black'>Atributos Generales</th>
@@ -212,25 +212,25 @@ export const BottomResultsTable = ({ context, bottom, craft }: { context: Scantl
             <ResultsItem text="Category" data={context.category} />
             <ResultsItem text="Zone" data={context.zone} />
             <ResultsItem text="kDC" data={craft.kDC} />
-            <ResultsItem text="nCG" data={craft.nCG} />
+            <ResultsItem text="nCG" data={craft.nCG.toFixed(3)} />
             <ResultsItem text="Material" data={context.material} />
             <ResultsItem text="Esfuerzo de diseño (Plating)" data={craft.designStressesPlating.sigmaDp} />
             <ResultsItem text="Esfuerzo de diseño (Stiffeners)" data={craft.designStressesStiffeners.sigmaD} />
             <ResultsItem text="Esfuerzo de diseño cortante (Stiffeners)" data={craft.designStressesStiffeners.tauDs} />
             <ResultsItem text="kSA" data="5" />
-            <ResultsItem text="Minima presion en el fondo" data={PBM_MIN} />
+            <ResultsItem text="Minima presion en el fondo" data={PBM_MIN.toFixed(3)} />
           </CollapsibleRow>
 
           <CollapsibleRow title="Plating">
             <ResultsItem text="Distancia de popa al pane (xp)" data={context.xp} />
             <ResultsItem text="kLp" data={craft.calculateKL.kLp} />
             <ResultsItem text="kRp" data={craft.calculateKR.kRp} />
-            <ResultsItem text="ADp" data={craft.calculateAD.ADp} />
-            <ResultsItem text="kARp" data={craft.calculateKAR.kARp} />
+            <ResultsItem text="ADp" data={craft.calculateAD.ADp.toFixed(3)} />
+            <ResultsItem text="kARp" data={craft.calculateKAR.kARp.toFixed(3)} />
 
-            <ResultsItem text="Presion en modo desplazamiento (Plating)" data={bottom.pbmdValues.PBMDp} />
-            <ResultsItem text="Presion en modo planeo (Plating)" data={bottom.pbmpValues.PBMPp} />
-            <ResultsItem text="Presion en el fondo tomada (Plating)" data={bottom.bottomPressureS} />
+            <ResultsItem text="Presion en modo desplazamiento (Plating)" data={bottom.pbmdValues.PBMDp.toFixed(3)} />
+            <ResultsItem text="Presion en modo planeo (Plating)" data={bottom.pbmpValues.PBMPp.toFixed(3)} />
+            <ResultsItem text="Presion en el fondo tomada (Plating)" data={bottom.bottomPressureS.toFixed(3)} />
             <ResultsItem text="k2" data={craft.calculatePlatingFactors.k2} />
             <ResultsItem text="k3" data={craft.calculatePlatingFactors.k3} />
             <ResultsItem text="kC" data={craft.KC} />
@@ -240,21 +240,20 @@ export const BottomResultsTable = ({ context, bottom, craft }: { context: Scantl
             <ResultsItem text="Distancia de popa al panel (xs)" data={context.xs} />
             <ResultsItem text="kLs" data={craft.calculateKL.kLs} />
             <ResultsItem text="kRs" data={craft.calculateKR.kRs} />
-            <ResultsItem text="ADs" data={craft.calculateAD.ADs} />
-            <ResultsItem text="kARs" data={craft.calculateKAR.kARs} />
-            <ResultsItem text="Presion en modo desplazamiento (Stiffeners)" data={bottom.pbmdValues.PBMDs} />
-            <ResultsItem text="Presion en modo planeo (Stiffeners)" data={bottom.pbmpValues.PBMPs} />
-            <ResultsItem text="Presion en el fondo tomada (Stiffeners)" data={bottom.bottomPressureS} />
+            <ResultsItem text="ADs" data={craft.calculateAD.ADs.toFixed(3)} />
+            <ResultsItem text="kARs" data={craft.calculateKAR.kARs.toFixed(3)} />
+            <ResultsItem text="Presion en modo desplazamiento (Stiffeners)" data={bottom.pbmdValues.PBMDs.toFixed(3)} />
+            <ResultsItem text="Presion en modo planeo (Stiffeners)" data={bottom.pbmpValues.PBMPs.toFixed(3)} />
+            <ResultsItem text="Presion en el fondo tomada (Stiffeners)" data={bottom.bottomPressureS.toFixed(3)} />
             <ResultsItem text="kCS" data={craft.KCS} />
 
         </CollapsibleRow>
 
-      {/* Add more CollapsibleRows for each set of data */}
         </div>
 
       </section>
 
-      <section className='p-6 flex-col flex gap-2'>
+      <section className='md:p-6 py-3 px-0.5 flex-col flex gap-2'>
         {
           context.material === 'FRP-Single Skin' &&
           <>
@@ -272,11 +271,12 @@ export const BottomResultsTable = ({ context, bottom, craft }: { context: Scantl
           </>
         }
 
-        <p>El espesor de las laminas del fondo calculado es: {bottom.bottomPlating.t}</p>
-        <p>El módulo de sección mínimo para los refuerzos del fondo es de: {bottom.SM} [cm^3], y el Area del alma minima es de: {bottom.AW} [cm^2]</p>
+        <p>El espesor de las laminas del fondo calculado es: {bottom.bottomPlating.t?.toFixed(3)}</p>
+        <p>El módulo de sección mínimo para los refuerzos del fondo es de: {bottom.SM.toFixed(3)}[cm^3]</p>
+        <p>El Area del alma minima es de: {bottom.AW.toFixed(3)}[cm^2]</p>
 
-        <button onClick={handleExportToExcel}>Export to excel</button>
-        <button onClick={handleExportToPdf}>Export to PDF</button>
+        <button className='rounded-lg border border-black py-1' onClick={handleExportToExcel}>Export to excel</button>
+        <button className='rounded-lg border border-black py-1 hidden lg:block' onClick={handleExportToPdf}>Export to PDF</button>
       </section>
     </>
 
